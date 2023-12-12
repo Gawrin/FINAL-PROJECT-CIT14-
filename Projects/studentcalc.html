@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Student Grades</title>
+  </head>
+  <body>
+    <div>
+      <label>Enter your Name:</label>
+      <input type="text" id="txtName">
+    </div>
+
+    <div>
+      <label>Enter your Section:</label>
+      <input type="text" id="txtSection">
+    </div>
+
+    <div>
+      <label>Enter your Year Level:</label>
+      <input type="text" id="txtYear">
+    </div>
+
+    <div>
+      <label>Enter your 5 Grades:</label>
+      <input type="number" class="gradeInput" id="sub1" placeholder="Subject 1">
+      <input type="number" class="gradeInput" id="sub2" placeholder="Subject 2">
+      <input type="number" class="gradeInput" id="sub3" placeholder="Subject 3">
+      <input type="number" class="gradeInput" id="sub4" placeholder="Subject 4">
+      <input type="number" class="gradeInput" id="sub5" placeholder="Subject 5">
+    </div>
+
+    <button id="btnCalculate">Calculate</button>
+
+    <table border="1">
+      <tr>
+        <th>Name</th>
+        <th>Section</th>
+        <th>Year Level</th>
+        <th>Sub1</th>
+        <th>Sub2</th>
+        <th>Sub3</th>
+        <th>Sub4</th>
+        <th>Sub5</th>
+        <th>Average</th>
+        <th>Result</th>
+      </tr>
+      <tbody id="resultsTableBody"></tbody>
+    </table>
+
+    <script type="text/javascript">
+      const txtName = document.getElementById("txtName");
+      const txtSection = document.getElementById("txtSection");
+      const txtYear = document.getElementById("txtYear");
+      const btnCalculate = document.getElementById("btnCalculate");
+      const resultsTableBody = document.getElementById("resultsTableBody");
+
+      btnCalculate.addEventListener("click", calculateGrades);
+
+      function calculateGrades() {
+        const grades = document.getElementsByClassName("gradeInput");
+        let total = 0;
+
+        for (let i = 0; i < grades.length; i++) {
+          total += parseInt(grades[i].value) || 0;
+        }
+
+        const average = total / grades.length;
+
+        const newRow = document.createElement("tr");
+        newRow.innerHTML = `
+          <td>${txtName.value}</td>
+          <td>${txtSection.value}</td>
+          <td>${txtYear.value}</td>
+          <td>${grades[0].value}</td>
+          <td>${grades[1].value}</td>
+          <td>${grades[2].value}</td>
+          <td>${grades[3].value}</td>
+          <td>${grades[4].value}</td>
+          <td>${average.toFixed(2)}</td>
+          <td>${getPassStatus(average)}</td>
+        `;
+
+        resultsTableBody.appendChild(newRow);
+      }
+
+      function getPassStatus(average) {
+        if (average > 90) {
+          return "With Honors";
+        } else if (average >= 75 && average <= 90) {
+          return "Passed";
+        } else {
+          return "Failed";
+        }
+      }
+    </script>
+  </body>
+</html>
